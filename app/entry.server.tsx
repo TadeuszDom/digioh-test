@@ -13,34 +13,73 @@ export default async function handleRequest(
   context: AppLoadContext,
 ) {
 
+
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+
+    defaultSrc: [
+      "'self'",
+      '*.lightboxcdn.com',
+    ],
+    scriptSrc: [
+      "'self'",
+      "'unsafe-inline'",
+      '*.lightboxcdn.com',
+      'http://localhost:3000',
+      'https://cdn.shopify.com',
+    ],
     styleSrc: [
       "'self'",
       "'unsafe-inline'",
+      '*.lightboxcdn.com',
+      'https://cdn.shopify.com',
+      'https://fonts.cdnfonts.com',
+      'http://www.revivalrugs.com',
+    ],
+    objectSrc: ["'none'"],
+    baseUri: ["'self'"],
+    connectSrc: [
+      "'self'",
+      '*.lightboxcdn.com',
+      'https://revivalrugs.com',
+      'http://localhost:3000',
     ],
     fontSrc: [
+      "'self'",
+      'data:',
+      '*.lightboxcdn.com',
       'http://localhost:3000',
       'https://www.revivalrugs.com',
-    ],
-    scriptSrc: [
-      "'self'", // local inline
-      "'unsafe-inline'",
-      'http://localhost:3000', // dev
-      'https://www.lightboxcdn.com', // digioh
+      'https://revivalrugs.com',
       'https://cdn.shopify.com',
-    ],
-    connectSrc: [
-      'http://localhost:3000',
-    ],
-    defaultSrc: [
     ],
     frameSrc: [
       "'self'",
+      '*.lightboxcdn.com',
     ],
+    imgSrc: [
+      "'self'",
+      'data:',
+      '*.lightboxcdn.com',
+      'https://cdn.shopify.com',
+      'http://www.revivalrugs.com',
+      'https://www.revivalrugs.com',
+      'https://www.revivalrugs.com/cdn/',
+      'http://localhost:3000',
+    ],
+    mediaSrc: [
+      "'self'",
+      'data:',
+      'blob:',
+      '*.lightboxcdn.com',
+      'https://cdn.shopify.com',
+      'https://www.revivalrugs.com',
+    ],
+    workerSrc: ["'self'", 'blob:'],
+    childSrc: ['blob:', '*.lightboxcdn.com'],
   });
 
   const body = await renderToReadableStream(
